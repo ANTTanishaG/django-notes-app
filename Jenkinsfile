@@ -5,22 +5,22 @@ pipeline {
         stage("Clone Code"){
             steps {
                 echo "Cloning the code"
-                git url:"https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+                git url:"https://github.com/ANTTanishaG/django-notes-app.git", branch: "main"
             }
         }
         stage("Build"){
             steps {
                 echo "Building the image"
-                sh "docker build -t my-note-app ."
+                sh "docker build -t live-note-app ."
             }
         }
         stage("Push to Docker Hub"){
             steps {
                 echo "Pushing the image to docker hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker tag live-note-app ${env.dockerHubUser}/live-note-app:latest"
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker push ${env.dockerHubUser}/live-note-app:latest"
                 }
             }
         }
